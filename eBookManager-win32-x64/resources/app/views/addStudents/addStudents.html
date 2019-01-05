@@ -1,0 +1,55 @@
+<div ng-include src="'shared/components/navigation.html'"></div>
+<div class="inner-wrapper">
+    <ul class="list-inline">
+        <li><a href="#!viewStudents">View Students</a></li>
+        <li><a href="#!addStudents">Add Students</a></li>
+    </ul>
+    
+
+
+    <center>
+    <p>Add Students</p>
+    <form name="addStudentForm" ng-submit="ctrl.submitFields()" novalidate>
+        
+        <table>
+            <!-- For each iteration, a unique "repeat form" instance is created, and therefore makes the controls unique to it -->
+            <tr ng-repeat="field in ctrl.fields" ng-include="'Field'" ng-form="rowForm"></tr>
+        </table>
+        <p><a href="" ng-click="ctrl.addField()">Add another student</a></p>
+        <button class="btn btn-primary" type="submit" value="Submit All students" ng-disabled="addStudentForm.$invalid">Submit All Students</button>
+
+    </form>
+    </center>
+
+
+</div>
+
+
+<script type="text/ng-template" id="Field">
+
+    <!-- <tr ng-repeat="row in addedFields"> -->
+    <td ng-class="{'is-invalid': rowForm.nameField.$invalid && rowForm.nameField.$touched}">
+        <input placeholder="Student Name" class="form-control input-sm" type="text" ng-model="field.studentName" name="nameField" required />
+        <p ng-show="rowForm.nameField.$invalid && rowForm.nameField.$touched">Name is not valid</p>
+    </td>
+    
+    <!-- Make function for comparing these conditions for applying this "hasError" class MAYBE --> 
+    <td ng-class="{'is-invalid': rowForm.gradeField.$invalid && rowForm.gradeField.$touched}">
+        <input placeholder="Grade" class="form-control input-sm" type="text" ng-model="field.grade" name="gradeField" ng-pattern="/^[0-9]{1,7}$/" required />
+        
+        <!-- This way, neither of the conditions occurr at the same instance -->
+        <p ng-show="rowForm.gradeField.$error.required && rowForm.gradeField.$touched">Grade is required</p>
+        <p ng-show="rowForm.gradeField.$error.pattern">Grade must be an integer</p>
+    </td>
+
+    <td>
+        <button class="btn btn-sm" type="button" ng-click="ctrl.removeField(field)">X</button>
+    </td>
+    <!-- This error message is uniquely contained within EACH UNIQUE NG-FORM (REPEAT FORM) -->
+        <!-- Instead of looking at Every nameField in addstudentForm, we're only looking in the repeat form instaces -->
+        
+        
+        <!-- p show when grade is not a number and that it's required -->
+
+    <!-- get each field from within ngrepeats scope-->
+</script>

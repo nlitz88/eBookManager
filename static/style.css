@@ -1,0 +1,58 @@
+* {
+    text-decoration: none;
+}
+
+body {
+    background-color: lightgreen;
+}
+
+#content-wrapper {
+    height: calc(100% - 20px);
+    width: calc(100% - 40px);
+    position: absolute;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.inner-wrapper {
+    margin-top: 20px;
+}
+
+
+
+.addClassesSelector {
+    background-color: lightblue;
+    width: 700px;
+}
+
+.queryTable {
+    height: 275px;
+    overflow-y: scroll;
+}
+
+.queryTableAddClasses {
+    height: 150px;
+    overflow-y: scroll;
+}
+
+table {
+    width: auto !important;
+}
+
+.queryTable td {
+    height: 10px !important;
+    margin: 0 !important;
+}
+
+.navbar-nav{
+    width: 100%;
+    text-align:center;
+}
+
+.navbar-nav>li {
+    width: calc(100% / 5);
+}
+
+.list-inline {
+    font-size: 20px;
+}

@@ -1,0 +1,88 @@
+<div ng-include src="'shared/components/navigation.html'"></div>
+<div class="inner-wrapper">
+    <ul class="list-inline">
+        <li><a href="#!/viewClasses">View Classes</a></li>
+        <li><a href="#!/viewClassStudents">View Class Students</a></li>
+        <li><a href="#!/viewClassIssues">View Class Issues</a></li>
+        <li><a href="#!addClasses">Add Classes</a></li>
+    </ul>
+
+    <center>
+    <p>Add Classes</p>
+    <!-- Begin Class Constructor Area -->
+    <form class="form-inline">
+        <label>Class Name</label>
+        <input class="form-control input-sm" type="text" placeholder="Class Name" name="classNameField" ng-model="ctrl.newClassName" required/>
+        <label>Select Book for Class</label>
+        <select class="form-control" ng-options="book for book in ctrl.booksArray" ng-model="ctrl.classBookName" required></select>
+    </form>
+
+    <br>
+    <label>Select Students to Add</label>
+    <br>
+
+
+    
+    <!-- filtering section for searching -->
+    <form class="form-inline">
+    <div class="searchBar">
+        <input class="form-control input-sm" placeholder="Student ID" type="text" ng-model="ctrl.student_IDFilter" ng-change="ctrl.filterQuery()" />
+        <button class="btn btn-sm" ng-click="ctrl.setSort(ctrl.ssStudent_ID)">/\</button>
+        <input class="form-control input-sm" placeholder="Student Name" type="text" ng-model="ctrl.studentFilter" ng-change="ctrl.filterQuery()" />
+        <button class="btn btn-sm" ng-click="ctrl.setSort(ctrl.ssStudentName)">/\</button>
+        <input class="form-control input-sm" placeholder="Grade" type="text" ng-model="ctrl.gradeFilter" ng-change="ctrl.filterQuery()" />
+        <button class="btn btn-sm" ng-click="ctrl.setSort(ctrl.ssGrade)">/\</button>
+    </div>
+    </form>
+
+    <!-- filtered query table -->
+    <div class="queryTableAddClasses">
+        <table class="table">
+            <thead>
+                <td><input type="checkbox" ng-model="ctrl.allToggled" ng-click="ctrl.changeSelectionStatusAll()"/></td>
+                <th>Student ID</th>
+                <th>Student Name</th>
+                <th>Grade</th>
+            </thead>
+            <tbody>
+                <tr ng-repeat="row in ctrl.filteredQuery | orderBy: ctrl.getSortBy()" ng-mouseover="ctrl.changeActive(row)" ng-mouseleave="ctrl.clearActive()" ng-click="ctrl.changeSelectionStatus(row)" ng-include="ctrl.getTemplate(row)" ng-form="rowForm" /> </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <form class="form-inline">
+        <label>Date of redemption</label>
+        <input class="form-control input-sm" type="text" ng-model="ctrl.date" />
+        <br>
+        <label>Redeem all students in class on submit?</label>
+        <input class="form-control input-sm" type="checkbox" ng-model="ctrl.redeeming" disabled/>
+        <br>
+        <button class="btn btn-primary" ng-click="ctrl.submitClass()" ng-disabled="classNameField.$invalid || !ctrl.anySelected()">Get selected</button>
+    </form>
+
+    </center>
+
+</div>
+
+
+<!-- Templates -->
+<script type="text/ng-template" id="display">
+
+    <!-- data cells -->
+    <td><input type="checkbox" ng-model="ctrl.selectedRows[row.student_ID]" /></td>
+    <td>{{row.student_ID}}</td>
+    <td>{{row.studentName}}</td>
+    <td>{{row.grade}}</td>
+
+</script>
+
+<script type="text/ng-template" id="selected">
+
+    <!-- data cells -->
+    <td><input type="checkbox" ng-model="ctrl.selectedRows[row.student_ID]" /></td>
+    <td>{{row.student_ID}}</td>
+    <td>{{row.studentName}}</td>
+    <td>{{row.grade}}</td>
+    
+
+</script>

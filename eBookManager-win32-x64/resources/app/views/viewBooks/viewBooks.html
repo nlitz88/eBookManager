@@ -1,0 +1,84 @@
+<div ng-include src="'shared/components/navigation.html'"></div>
+<div class="inner-wrapper">
+    <ul class="list-inline">
+        <li><a href="#!viewBooks">View Books</a></li>
+        <li><a href="#!addBooks">Add Books</a></li>
+    </ul>
+    
+    <center>
+        <p>View Books</p>
+        <!-- begin search table section -->
+        <button class="btn-danger" ng-click="ctrl.deleteSelected()" ng-show="ctrl.anySelected()">Delete Selected</button>
+        
+        <!-- filtering section for searching -->
+        <form class="form-inline">
+        <div class="searchBar">
+            <input class="form-control input-sm" placeholder="Book ID" type="text" ng-model="ctrl.book_IDFilter" ng-change="ctrl.filterQuery()" />
+            <button class="btn btn-sm" ng-click="ctrl.setSort(ctrl.ssbook_ID)">/\</button>
+            <input class="form-control input-sm" placeholder="Book Name" type="text" ng-model="ctrl.bookFilter" ng-change="ctrl.filterQuery()" />
+            <button class="btn btn-sm" ng-click="ctrl.setSort(ctrl.ssbookName)">/\</button>
+        </div>
+        </form>
+    
+        <!-- filtered query table -->
+        <div class="queryTable">
+            <table class="table">
+                <thead>
+                    <td><input type="checkbox" ng-model="ctrl.allToggled" ng-click="ctrl.changeSelectionStatusAll()"/></td>
+                    <th>Book ID</th>
+                    <th>Book Name</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="row in ctrl.filteredQuery | orderBy: ctrl.getSortBy()" ng-mouseover="ctrl.changeActive(row)" ng-mouseleave="ctrl.clearActive()" ng-click="ctrl.changeSelectionStatus(row)" ng-include="ctrl.getTemplate(row)" ng-form="rowForm" /> </tr>
+                </tbody>
+            </table>
+        </div>
+        </center>
+
+</div>
+
+
+<script type="text/ng-template" id="display">
+
+    <!-- data cells -->
+    <td><input type="checkbox" ng-model="ctrl.selectedRows[row.book_ID]" /></td>
+    <td>{{row.book_ID}}</td>
+    <td>{{row.bookName}}</td>
+
+</script>
+
+<script type="text/ng-template" id="selected">
+
+    <!-- data cells -->
+    <td><input type="checkbox" ng-model="ctrl.selectedRows[row.book_ID]" /></td>
+    <td>{{row.book_ID}}</td>
+    <td>{{row.bookName}}</td>
+
+    <td><button class="btn-primary btn-xs" ng-click="ctrl.changeEditable()">Edit</button></td>
+    
+
+</script>
+
+
+<script type="text/ng-template" id="edit">
+
+    <!-- Redemption Code, BookName, ClassName,  RedemptionStatus-->
+    <td><input type="checkbox" ng-model="ctrl.selectedRows[row.book_ID]" /></td>
+    <td>
+        {{row.book_ID}}
+    </td>
+    <!-- data cells -->
+    <td>
+        <input type="text" class="form-control form-control-sm" name="bookNameField" ng-model="ctrl.activeRow.bookName" required />
+        <p ng-show="rowForm.bookNameField.$invalid">Required</p>
+    </td>
+
+    <!-- Control cell -->
+    <td>
+        <!-- Do you need to pass user here? -->
+        <button class="btn-primary btn-xs"  ng-click="ctrl.saveSelected(row)" ng-disabled="rowForm.$invalid">Save</button>
+        <button class="btn btn-xs" ng-click="ctrl.clearEditable()">Cancel</button>
+        
+    </td>
+
+</script>
